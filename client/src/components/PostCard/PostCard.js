@@ -9,9 +9,9 @@ class PostCard extends Component {
         
         return (
             <div className="post-card">
-                <div className="text-block">
+                <p className="text-block" style={{whiteSpace: 'pre-wrap'}}>
                     {text}
-                </div>
+                </p>
                 <p className="author">{author}</p>
                 <p className="date">{date}</p>
             </div>

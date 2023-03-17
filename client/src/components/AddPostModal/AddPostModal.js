@@ -39,11 +39,9 @@ class AddPostModal extends Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => postPost({
-                        author: 'iliamikado',
-                        date: '2023-05-05',
-                        text: this.state.text
-                    })}>
+                    <Button variant="primary" onClick={() => {
+                        postPost({author: 'iliamikado',date: '2023-05-05', text: this.state.text})
+                    }}>
                         Submit
                     </Button>
                 </Modal.Footer>
