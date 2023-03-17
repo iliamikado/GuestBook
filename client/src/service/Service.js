@@ -15,7 +15,7 @@ async function getPosts() {
 }
 
 async function postPost(post) {
-    postResource('posts', post);
+    return await postResource('posts', post);
 }
 
 export {getPosts, postPost};
