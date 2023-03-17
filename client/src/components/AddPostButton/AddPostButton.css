@@ -1,0 +1,16 @@
+.add-post-button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    border: 0px;
+    background-color: blue;
+    font-size: 50px;
+    box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, .2);
+    padding-bottom: 6px;
+}
+.add-post-button:active {
+    box-shadow: none;
+}

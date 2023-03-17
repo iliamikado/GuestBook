@@ -1,10 +1,11 @@
 const express = require('express');
-const fileManager = require('./fileManager');
+const cors = require('cors');
 const posts = require('./routes/posts');
 
 const app = express();
 const port = 3001;
 
+app.use(cors());
 app.use(express.json());
 app.use('/posts', posts);
 
