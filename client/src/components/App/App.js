@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { getPosts } from "../../service/Service";
+import { getPosts, createPostsSync } from "../../service/Service";
 
 import './App.css';
 
@@ -22,6 +22,11 @@ class App extends Component {
         getPosts().then(posts => {
             this.setState({posts});
         });
+        createPostsSync((data) => {
+            console.log(data);
+            this.setState(({posts}) => ({posts: [data, ...posts]}));
+        });
+
     }
 
     render() {

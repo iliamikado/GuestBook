@@ -11,7 +11,7 @@ class FileManager {
                 posts: []
             }
         }
-        console.log(this.data);
+        this.webSockets = new Set();
     }
 
     getPosts() {
@@ -20,7 +20,10 @@ class FileManager {
 
     addPost(post) {
         post.id = this.data.posts.length;
-        this.data.posts.push(post);
+        this.data.posts.unshift(post);
+        this.webSockets.forEach(ws => {
+            ws.send(JSON.stringify(post));
+        });
         this.writeToFile();
     }
 
@@ -32,6 +35,16 @@ class FileManager {
     writeToFile() {
         fs.writeFileSync(this.path, JSON.stringify(this.data));
     }
+
+    addWS(ws) {
+        this.webSockets.add(ws);
+        console.log(this.webSockets.size);
+    }
+
+    removeWs(ws) {
+        this.webSockets.delete(ws);
+    }
+
 }
 
 
