@@ -6,10 +6,11 @@ const fileManager = require('./fileManager');
 
 const app = express();
 const expressWs = require('express-ws')(app);
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+app.get('/', (req, res) => res.send('Home Page Route'));
 app.use('/posts', posts);
 app.use('/users', users);
 
