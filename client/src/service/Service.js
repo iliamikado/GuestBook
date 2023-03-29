@@ -30,4 +30,12 @@ async function postPost(post) {
     return await postResource('posts', post);
 }
 
-export {getPosts, postPost, createPostsSync};
+async function postUser(user) {
+    return await postResource('users', user);
+}
+
+async function loginUser(user) {
+    return await postResource('users/login', user);
+}
+
+export {getPosts, postPost, createPostsSync, postUser, loginUser};

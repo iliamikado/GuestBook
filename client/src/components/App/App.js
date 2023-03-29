@@ -7,6 +7,7 @@ import Header from "../Header/Header";
 import PostCard from "../PostCard/PostCard";
 import AddPostModal from "../AddPostModal/AddPostModal";
 import AddPostButton from "../AddPostButton/AddPostButton";
+import LoginModal from "../LoginModal/LoginModal";
 
 class App extends Component {
 
@@ -14,7 +15,9 @@ class App extends Component {
         super(props);
         this.state = {
             posts: [],
-            showAddPostModal: false
+            showAddPostModal: false,
+            showLoginModal: false,
+            user: null
         }
     }
 
@@ -23,10 +26,12 @@ class App extends Component {
             this.setState({posts});
         });
         createPostsSync((data) => {
-            console.log(data);
             this.setState(({posts}) => ({posts: [data, ...posts]}));
         });
+    }
 
+    setUser = (user) => {
+        this.setState({user});
     }
 
     render() {
@@ -39,12 +44,13 @@ class App extends Component {
 
         return (
             <div>
-                <Header />
+                <Header openLoginModal={() => this.setState({showLoginModal: true})} user={this.state.user}/>
                 <div className="container">
                     {posts}
                 </div>
-                {this.state.showAddPostModal ? <AddPostModal onHide={() => this.setState({showAddPostModal: false})}/> : null}
-                <AddPostButton onClick={() => this.setState({showAddPostModal: true})}/>
+                {this.state.showAddPostModal ? <AddPostModal onHide={() => this.setState({showAddPostModal: false})} user={this.state.user}/> : null}
+                {this.state.showLoginModal ? <LoginModal onHide={() => this.setState({showLoginModal: false})} setUser={this.setUser}/> : null}
+                {this.state.user ? <AddPostButton onClick={() => this.setState({showAddPostModal: true})}/> : null}
             </div>
         )
     }

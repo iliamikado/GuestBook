@@ -1,0 +1,6 @@
+.changing-link {
+    color: blue;
+}
+.changing-link:hover {
+    cursor: pointer;
+}

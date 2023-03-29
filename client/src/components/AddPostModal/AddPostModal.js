@@ -33,7 +33,7 @@ class AddPostModal extends Component {
                     </Modal.Title>
                 </Modal.Header>
                 {this.state.sended ? <SendedStatus setSended={this.setSended}/> : null}
-                {!this.state.sended ? <PostForm setSended={this.setSended}/> : null}
+                {!this.state.sended ? <PostForm {...this.props} setSended={this.setSended}/> : null}
           </Modal>
         )
     }
@@ -73,7 +73,8 @@ const PostForm = (props) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={() => {
-                    postPost({author: 'iliamikado',date: '2023-05-05', text: text})
+                    const now = new Date();
+                    postPost({author: props.user, date: `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`, text: text})
                         .then(data => {
                             if (data && data.status === 200) {
                                 props.setSended(true);

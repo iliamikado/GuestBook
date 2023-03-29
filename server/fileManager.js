@@ -32,6 +32,14 @@ class FileManager {
         this.writeToFile();
     }
 
+    userExist(login) {
+        return this.data.users.find((user) => (login === user.login));
+    }
+
+    userLogin(login, password) {
+        return this.data.users.find((user) => (login === user.login && password === user.password));
+    }
+
     writeToFile() {
         fs.writeFileSync(this.path, JSON.stringify(this.data));
     }
