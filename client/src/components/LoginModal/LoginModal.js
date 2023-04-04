@@ -24,6 +24,7 @@ class LoginModal extends Component {
                 postUser({login, password}).then(data => {
                     if (data.status === 200) {
                         this.props.setUser(login);
+                        this.props.setUserId(data.user_id);
                         this.props.onHide();
                     }
                 });
@@ -32,6 +33,7 @@ class LoginModal extends Component {
             loginUser({login, password}).then(data => {
                 if (data.status === 200) {
                     this.props.setUser(login);
+                    this.props.setUserId(data.user_id);
                     this.props.onHide();
                 }
             });

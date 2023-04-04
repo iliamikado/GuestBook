@@ -73,8 +73,7 @@ const PostForm = (props) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={() => {
-                    const now = new Date();
-                    postPost({author: props.user, date: `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`, text: text})
+                    postPost({user_id: props.userId, value: text, login: props.user})
                         .then(data => {
                             if (data && data.status === 200) {
                                 props.setSended(true);

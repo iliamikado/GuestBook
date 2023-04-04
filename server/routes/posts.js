@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const fileManager = require('../fileManager');
+const dbManager = require('../dbManager');
 
 
 router.get('/', function(req, res) {
-  res.send(fileManager.getPosts());
+    dbManager.getPosts().then(data => {
+        res.send(data);
+    })
 });
 
 router.post('/', function(req, res) {
     try {
-        fileManager.addPost(req.body);
+        dbManager.addPost(req.body);
         res.send({status: 200});
     } catch {
         res.send({status: 500});

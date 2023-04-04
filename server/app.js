@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const posts = require('./routes/posts');
 const users = require('./routes/users');
-const fileManager = require('./fileManager');
+const dbManager = require('./dbManager');
 
 const app = express();
 const expressWs = require('express-ws')(app);
@@ -15,10 +15,10 @@ app.use('/users', users);
 
 app.ws('/posts_sync', function(ws, req) {
 
-  fileManager.addWS(ws);
+  dbManager.addWS(ws);
 
   ws.on('close', function(msg) {
-    fileManager.removeWs(ws);
+    dbManager.removeWs(ws);
   });
 });
 

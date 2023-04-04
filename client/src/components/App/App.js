@@ -19,6 +19,7 @@ class App extends Component {
             showLoginModal: false,
             user: null
         }
+        this.userId = null;
     }
 
     componentDidMount() {
@@ -30,9 +31,8 @@ class App extends Component {
         });
     }
 
-    setUser = (user) => {
-        this.setState({user});
-    }
+    setUser = (user) => {this.setState({user})}
+    setUserId = (userId) => {this.userId = userId}
 
     render() {
 
@@ -48,8 +48,8 @@ class App extends Component {
                 <div className="container">
                     {posts}
                 </div>
-                {this.state.showAddPostModal ? <AddPostModal onHide={() => this.setState({showAddPostModal: false})} user={this.state.user}/> : null}
-                {this.state.showLoginModal ? <LoginModal onHide={() => this.setState({showLoginModal: false})} setUser={this.setUser}/> : null}
+                {this.state.showAddPostModal ? <AddPostModal onHide={() => this.setState({showAddPostModal: false})} userId={this.userId} user={this.state.user}/> : null}
+                {this.state.showLoginModal ? <LoginModal onHide={() => this.setState({showLoginModal: false})} setUser={this.setUser} setUserId={this.setUserId}/> : null}
                 {this.state.user ? <AddPostButton onClick={() => this.setState({showAddPostModal: true})}/> : null}
             </div>
         )
