@@ -1,6 +1,6 @@
 const url = process.env.PATH_FOR_HTTP || 'http://localhost:3001/';
 const ws_url = process.env.PATH_FOR_WS || "ws://localhost:3001/";
-console.log(url, ws_url);
+console.log(process.env);
 
 function createPostsSync(onMessage) {
     let socket = new WebSocket(ws_url + 'posts_sync');
