@@ -26,6 +26,8 @@ class LoginModal extends Component {
                         this.props.setUser(login);
                         this.props.setUserId(data.user_id);
                         this.props.onHide();
+                    } else {
+                        console.log(data);
                     }
                 });
             }
@@ -35,6 +37,8 @@ class LoginModal extends Component {
                     this.props.setUser(login);
                     this.props.setUserId(data.user_id);
                     this.props.onHide();
+                } else {
+                    console.log(data)
                 }
             });
         }
