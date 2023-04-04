@@ -1,8 +1,5 @@
-const url = process.env.PATH_FOR_HTTP || 'http://localhost:3001/';
-const ws_url = process.env.PATH_FOR_WS || "ws://localhost:3001/";
-console.log(process.env);
-console.log(process.env);
-console.log(process.env);
+const url = process.env.REACT_APP_PATH_FOR_HTTP || 'http://localhost:3001/';
+const ws_url = process.env.REACT_APP_PATH_FOR_WS || "ws://localhost:3001/";
 
 function createPostsSync(onMessage) {
     let socket = new WebSocket(ws_url + 'posts_sync');
