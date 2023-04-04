@@ -1,5 +1,6 @@
 const pgp = require('pg-promise')(/* options */);
 const db = pgp(process.env.DB_URL || 'postgres://iliamikado:34343434@0.0.0.0:5432/guestbook');
+console.log(process.env);
 
 class DBManager {
     constructor() {
