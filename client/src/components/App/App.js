@@ -8,6 +8,7 @@ import PostCard from "../PostCard/PostCard";
 import AddPostModal from "../AddPostModal/AddPostModal";
 import AddPostButton from "../AddPostButton/AddPostButton";
 import LoginModal from "../LoginModal/LoginModal";
+import MySpinner from "../MySpinner/MySpinner";
 
 class App extends Component {
 
@@ -17,14 +18,17 @@ class App extends Component {
             posts: [],
             showAddPostModal: false,
             showLoginModal: false,
-            user: null
+            user: null,
+            postsLoading: false
         }
         this.userId = null;
     }
 
     componentDidMount() {
+        this.setState({postsLoading: true});
         getPosts().then(posts => {
             this.setState({posts});
+            this.setState({postsLoading: false});
         });
         createPostsSync((data) => {
             this.setState(({posts}) => ({posts: [data, ...posts]}));
@@ -45,9 +49,7 @@ class App extends Component {
         return (
             <div>
                 <Header openLoginModal={() => this.setState({showLoginModal: true})} user={this.state.user}/>
-                <div className="container">
-                    {posts}
-                </div>
+                {this.state.postsLoading ? <MySpinner/> : <div className="container">{posts}</div>}
                 {this.state.showAddPostModal ? <AddPostModal onHide={() => this.setState({showAddPostModal: false})} userId={this.userId} user={this.state.user}/> : null}
                 {this.state.showLoginModal ? <LoginModal onHide={() => this.setState({showLoginModal: false})} setUser={this.setUser} setUserId={this.setUserId}/> : null}
                 {this.state.user ? <AddPostButton onClick={() => this.setState({showAddPostModal: true})}/> : null}

@@ -5,7 +5,7 @@ const dbManager = require('../dbManager');
 router.post('/', function(req, res) {
     const {login, password} = req.body;
 
-    dbManager.userExist(exist => {
+    dbManager.userExist(login).then(exist => {
         if (exist) {
             res.send({status: 400, message: 'Login is already using'});
         } else {

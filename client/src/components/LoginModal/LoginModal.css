@@ -4,3 +4,8 @@
 .changing-link:hover {
     cursor: pointer;
 }
+.error-message {
+    color: red;
+    margin: 5px;
+    font-size: 11px;
+}

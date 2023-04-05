@@ -4,6 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { postUser, loginUser } from '../../service/Service';
 
+import MySpinner from '../MySpinner/MySpinner';
+
 import './LoginModal.css';
 
 class LoginModal extends Component {
@@ -13,40 +15,68 @@ class LoginModal extends Component {
             register: false,
             login: '',
             password: '',
-            passwordRepeat: ''
+            passwordRepeat: '',
+            loading: false,
+            passwordRepeatWrong: false,
+            passwordShort: false,
+            loginTaken: false,
+            wrongPasswordOrLogin: false
         }
     }
 
     onSubmit = () => {
         const {register, login, password, passwordRepeat} = this.state;
         if (register) {
-            if (password.length > 3 && passwordRepeat === password) {
+            if (password.length <= 3) {
+                this.setState({passwordShort: true});
+            } else if (passwordRepeat !== password) {
+                this.setState({passwordRepeatWrong: true});
+            } else {
+                this.setState({loading: true});
                 postUser({login, password}).then(data => {
+                    this.setState({loading: false});
                     if (data.status === 200) {
                         this.props.setUser(login);
                         this.props.setUserId(data.user_id);
                         this.props.onHide();
+                    } else if (data.status === 400) {
+                        this.setState({loginTaken: true});
                     } else {
                         console.log(data);
                     }
                 });
             }
         } else {
+            this.setState({loading: true});
             loginUser({login, password}).then(data => {
+                this.setState({loading: false});
                 if (data.status === 200) {
                     this.props.setUser(login);
                     this.props.setUserId(data.user_id);
                     this.props.onHide();
+                } else if (data.status === 400) {
+                    this.setState({wrongPasswordOrLogin: true});
                 } else {
-                    console.log(data)
+                    console.log(data);
                 }
             });
         }
     }
 
+    onChangeInput = (e, field) => {
+        this.setState({
+            passwordRepeatWrong: false,
+            passwordShort: false,
+            loginTaken: false,
+            wrongPasswordOrLogin: false
+        });
+        this.setState({[field]: e.target.value});
+    }
+
     render() {
 
         const {register, login, password, passwordRepeat} = this.state;
+        const {loginTaken, wrongPasswordOrLogin, passwordShort, passwordRepeatWrong, loading} = this.state;
 
         return (
             <Modal
@@ -62,23 +92,32 @@ class LoginModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group className="mb-3">
-                            <Form.Control placeholder="Login" value={login} onChange={(e) => {this.setState({login: e.target.value})}}/>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Control type="password" value={password} onChange={(e) => {this.setState({password: e.target.value})}} placeholder="Password" />
-                        </Form.Group>
-
-                        {register ? 
+                        {loading ? <MySpinner/> : <>
                             <Form.Group className="mb-3">
-                                <Form.Control type="password" value={passwordRepeat} onChange={(e) => {this.setState({passwordRepeat: e.target.value})}} placeholder="Password again" />
+                                <Form.Control placeholder="Login" value={login} onChange={(e) => {this.onChangeInput(e, 'login')}}/>
                             </Form.Group>
-                        : null}
 
-                        <Button onClick={this.onSubmit}>
+                            <Form.Group className="mb-3">
+                                <Form.Control type="password" value={password} onChange={(e) => {this.onChangeInput(e, 'password')}} placeholder="Password" />
+                            </Form.Group>
+
+                            {register ? 
+                                <Form.Group className="mb-3">
+                                    <Form.Control type="password" value={passwordRepeat} onChange={(e) => {this.onChangeInput(e, 'passwordRepeat')}} placeholder="Password again" />
+                                </Form.Group>
+                            : null}
+                        </>}
+
+                        <Button onClick={this.onSubmit} disabled={loading}>
                             Submit
                         </Button>
+
+                        <div className='error-message'>
+                            {wrongPasswordOrLogin ? 'Wrong login or password' : null}
+                            {passwordShort ? 'Password is too short' : null}
+                            {passwordRepeatWrong ? 'Different passwords' : null}
+                            {loginTaken ? 'This login is already taken' : null}
+                        </div>
 
                     </Form>
                 </Modal.Body>
