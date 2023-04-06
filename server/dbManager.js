@@ -1,5 +1,7 @@
 const pgp = require('pg-promise')(/* options */);
 const db = pgp(process.env.DB_URL || 'postgres://iliamikado:34343434@0.0.0.0:5432/guestbook');
+const bcrypt = require('bcrypt');
+const saltRounds = 8;
 
 class DBManager {
     constructor() {
@@ -35,7 +37,8 @@ class DBManager {
     }
 
     addUser(user) {
-        return db.one('INSERT INTO users(login, password) VALUES($1, $2) RETURNING id', [user.login, user.password])
+        const passwordHash = bcrypt.hashSync(user.password, saltRounds);
+        return db.one('INSERT INTO users(login, password) VALUES($1, $2) RETURNING id', [user.login, passwordHash])
             .then(({id}) => {
                 console.log('User added succesfuly');
                 return id;
@@ -51,7 +54,11 @@ class DBManager {
     }
 
     async userLogin(login, password) {
-        return (await db.any('SELECT id from users WHERE login = $1 AND password = $2', [login, password]))[0]?.id;
+        return await db.any('SELECT id, password FROM users WHERE login = $1', [login]).then(data => {
+            if (data[0] && bcrypt.compareSync(password, data[0].password)) {
+                return data[0].id;
+            }
+        }).catch(() => (false));
     }
 
     addWS(ws) {
