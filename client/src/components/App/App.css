@@ -3,8 +3,9 @@
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
     position: absolute;
-    top: 100px;
+    top: 80px;
     bottom: 50px;
+    max-width: 100%;
 }
 .container::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */

@@ -1,9 +1,3 @@
-.changing-link {
-    color: blue;
-}
-.changing-link:hover {
-    cursor: pointer;
-}
 .error-message {
     color: red;
     margin: 5px;

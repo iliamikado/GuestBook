@@ -1,4 +1,5 @@
 import { Component } from "react";
+import Card from 'react-bootstrap/Card';
 
 import './PostCard.css';
 
@@ -8,13 +9,17 @@ class PostCard extends Component {
         const {value, login, date} = post;
         
         return (
-            <div className="post-card">
-                <p className="text-block" style={{whiteSpace: 'pre-wrap'}}>
-                    {value}
-                </p>
-                <p className="author">{login}</p>
-                <p className="date">{date}</p>
-            </div>
+            <Card className="post-card">
+                <Card.Body>
+                    <Card.Text>
+                        {value}
+                    </Card.Text>
+                </Card.Body>
+                <Card.Footer className="text-muted footer">
+                    <p className="author">{login}</p>
+                    <p className="date">{date}</p>
+                </Card.Footer>
+            </Card>
         )
     }
 }

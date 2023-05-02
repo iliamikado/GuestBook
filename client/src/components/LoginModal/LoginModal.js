@@ -12,7 +12,7 @@ class LoginModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            register: false,
+            register: props.register,
             login: '',
             password: '',
             passwordRepeat: '',
@@ -121,12 +121,6 @@ class LoginModal extends Component {
 
                     </Form>
                 </Modal.Body>
-                <Modal.Footer style={{justifyContent: 'flex-start'}}>
-                    {register ? 
-                        <div className='changing-link' onClick={() => this.setState({register: false})}>Login</div> : 
-                        <div className='changing-link' onClick={() => this.setState({register: true})}>Register</div>
-                    }
-                </Modal.Footer>
             </Modal>
         );
     }

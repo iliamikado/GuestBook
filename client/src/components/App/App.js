@@ -19,7 +19,8 @@ class App extends Component {
             showAddPostModal: false,
             showLoginModal: false,
             user: null,
-            postsLoading: false
+            postsLoading: false,
+            register: false
         }
         this.userId = null;
     }
@@ -37,6 +38,10 @@ class App extends Component {
 
     setUser = (user) => {this.setState({user})}
     setUserId = (userId) => {this.userId = userId}
+    logout = () => {
+        this.setState({user: null});
+        this.userId = null;
+    }
 
     render() {
 
@@ -48,11 +53,15 @@ class App extends Component {
 
         return (
             <div>
-                <Header openLoginModal={() => this.setState({showLoginModal: true})} user={this.state.user}/>
+                <Header 
+                    openLoginModal={(register) => {this.setState({showLoginModal: true, register});}}
+                    user={this.state.user}
+                    logout={this.logout}
+                    addPost={() => this.setState({showAddPostModal: true})}
+                />
                 {this.state.postsLoading ? <MySpinner/> : <div className="container">{posts}</div>}
                 {this.state.showAddPostModal ? <AddPostModal onHide={() => this.setState({showAddPostModal: false})} userId={this.userId} user={this.state.user}/> : null}
-                {this.state.showLoginModal ? <LoginModal onHide={() => this.setState({showLoginModal: false})} setUser={this.setUser} setUserId={this.setUserId}/> : null}
-                {this.state.user ? <AddPostButton onClick={() => this.setState({showAddPostModal: true})}/> : null}
+                {this.state.showLoginModal ? <LoginModal onHide={() => this.setState({showLoginModal: false})} setUser={this.setUser} setUserId={this.setUserId} register={this.state.register}/> : null}
             </div>
         )
     }
